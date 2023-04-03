@@ -111,6 +111,9 @@ hand(Cards, high_card(Rank)) :-
     select(Rank, Cards, _),
     rank(Rank, _).
 
+
+% check for better 
+
 better(pair(Rank1), pair(Rank2)) :-
     rank(Rank1, N1),
     rank(Rank2, N2),
@@ -151,6 +154,7 @@ better(three_of_a_kind(_), pair(_)).
 better(three_of_a_kind(_), high_card(_)).
 better(two_pair(_,_), pair(_)).
 better(two_pair(_,_), high_card(_)).
+better(pair(_), high_card(_)).
 
 
 % %% find the best combination for a given hand
@@ -167,6 +171,8 @@ game_outcome(Cards1,Cards2,Outcome) :-
 outcome(Hand1,Hand2,player1) :- better(Hand1,Hand2).
 outcome(Hand1,Hand2,player2) :- better(Hand2,Hand1).
 outcome(Hand1,Hand2,tie) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1).
+
+
 best_hand(Cards,Hand) :-
     hand(Cards,Hand),
     \+ (hand(Cards,Hand2), better(Hand2,Hand)).
@@ -175,9 +181,11 @@ best_hand(Cards,Hand) :-
 
     
 %% tests 
-query(best_hand([jack, king, ace],X)).
-query(best_hand([jack, king, jack, jack],X)).
-query(best_hand([queen, ace, king, jack],X)).
-query(game_outcome([jack, king, jack,10],[jack,king,king, king],X)).
-query(game_outcome([jack, jack, ace],[jack, king, jack],X)).
-query(best_hand([10,jack,queen,king,ace], X)).
+% query(best_hand([jack, king, ace],X)).
+% query(best_hand([jack, king, jack, jack],X)).
+% query(best_hand([queen, ace, king, jack],X)).
+% query(game_outcome([jack, king, jack],[jack,king,king],X)).
+% query(game_outcome([jack, jack, ace],[jack, king, jack],X)).
+% query(best_hand([10,jack,queen,king,ace], X)).
+% query(best_hand([jack, king, king], X)).
+query(game_outcome([7,7,7,6,6],[7,7,7,4,4],X)).
