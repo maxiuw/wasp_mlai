@@ -31,29 +31,11 @@ hand_ranking(highcard, 1).
 
 %% card combinations
 
-% Straight
-
-% hand(Cards, straight(X)) :-
-%     permutation(Cards, [C1,C2,C3,C4,C5]),
-%     rank(C1, R1), rank(C2, R2), rank(C3, R3), rank(C4, R4), rank(C5, R5),
-%     R1+1 =:= R2, R2+1 =:= R3, R3+1 =:= R4, R4+1 =:= R5,
-%     X is R5.
-
-% hand(Cards, straight(X)) :-
-%     permutation(Cards, [X1,X2,X3,X4,X5]),
-%     rank(X1,R1),rank(X2,R2),rank(X3,R3),rank(X4,R4),rank(X5,R5),
-%     (
-%         R1+1 =:= R2, R2+1 =:= R3, R3+1 =:= R4, R4+1 =:= R5
-%         ;
-%         % handle special case where Ace is used as low card in a straight
-%         X1 = ace, X2 = 5, X3 = 4, X4 = 3, X5 = 2
-%     ).
-
 % straight
 hand(Cards, straight(Rank)) :-
     list_to_set(Cards, CardsSet),
     length(CardsSet, N),
-    N >= 5,
+    N >= 4,
     select(Rank, CardsSet, Cards2),
     rank(Rank, N0),
     (N1 is N0 + 1),
@@ -62,10 +44,11 @@ hand(Cards, straight(Rank)) :-
     (N2 =:= N1+1),
     select(Rank3, Cards3, Cards4),
     rank(Rank3, N3),
-    (N3 =:= N2+1),
-    select(Rank4, Cards4, Cards5),
-    rank(Rank4, N4),
-    (N4 =:= N3 +1).
+    (N3 =:= N2+1).
+    % % commenting out since we consider "fake" straights 4 cards only 
+    % select(Rank4, Cards4, Cards5),
+    % rank(Rank4, N4),
+    % (N4 =:= N3 +1).
 
 % Example for pair
 hand(Cards,pair(Rank)) :-
@@ -89,8 +72,14 @@ hand(Cards, threeofakind(Rank)) :-
     member(Rank, Cards3),
     rank(Ran1, _ ).
 
+hand(Cards, highcard(Rank)) :-
+    select(Rank, Cards, _),
+    rank(Rank, _).
+
+
 % %% comparison function for card combinations
 
+% check for better 
 
 
 max2(X, Y, Max) :-
@@ -105,14 +94,6 @@ low2(X, Y, Low) :-
 low2(X, Y, Low) :-
     X =< Y,
     Low is X.
-
-
-hand(Cards, highcard(Rank)) :-
-    select(Rank, Cards, _),
-    rank(Rank, _).
-
-
-% check for better 
 
 better(pair(Rank1), pair(Rank2)) :-
     rank(Rank1, N1),
@@ -187,5 +168,5 @@ best_hand(Cards,Hand) :-
 % query(game_outcome([jack, king, jack],[jack,king,king],X)).
 % query(game_outcome([jack, jack, ace],[jack, king, jack],X)).
 % query(best_hand([10,jack,queen,king,ace], X)).
-% query(best_hand([jack, king, king], X)).
+query(best_hand([jack, queen,ace, king], X)).
 query(game_outcome([7,7,7,6,6],[7,7,7,4,4],X)).
