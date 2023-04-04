@@ -24,10 +24,10 @@ rank(ace, 13).
 
 % hand ranks 
 hand_ranking(straight, 5).
-hand_ranking(three_of_a_kind, 4).
+hand_ranking(threeofakind, 4).
 hand_ranking(two_pair, 3).
 hand_ranking(one_pair, 2).
-hand_ranking(high_card, 1).
+hand_ranking(highcard, 1).
 
 %% card combinations
 
@@ -82,7 +82,7 @@ hand(Cards, two_pair(Rank1,Rank2)) :-
     rank(Rank1, _ ),
     rank(Rank2, _ ).
 % Tris
-hand(Cards, three_of_a_kind(Rank)) :-
+hand(Cards, threeofakind(Rank)) :-
     select(Rank, Cards, Cards2),
     member(Rank, Cards2),
     select(Rank, Cards2, Cards3),
@@ -107,7 +107,7 @@ low2(X, Y, Low) :-
     Low is X.
 
 
-hand(Cards, high_card(Rank)) :-
+hand(Cards, highcard(Rank)) :-
     select(Rank, Cards, _),
     rank(Rank, _).
 
@@ -130,7 +130,7 @@ better(two_pair(Rank1a, Rank1b), two_pair(Rank2a, Rank2b)) :-
     low2(N2a, N2b, LowN2),
     ((MaxN1 > MaxN2); (MaxN1 =:= MaxN2, LowN1 > LowN2)).
 
-better(three_of_a_kind(Rank1), three_of_a_kind(Rank2)) :-
+better(threeofakind(Rank1), threeofakind(Rank2)) :-
     rank(Rank1, N1),
     rank(Rank2, N2),
     N1 > N2.
@@ -140,7 +140,7 @@ better(straight(Rank1), straight(Rank2)) :-
     rank(Rank2, N2),
     N1 > N2.
 
-better(high_card(Rank1), high_card(Rank2)) :-
+better(highcard(Rank1), highcard(Rank2)) :-
     rank(Rank1, N1),
     rank(Rank2, N2),
     N1 > N2.
@@ -148,13 +148,13 @@ better(high_card(Rank1), high_card(Rank2)) :-
 better(straight(_), tris(_)).
 better(straight(_), two_pair(_,_)).
 better(straight(_), pair(_)).
-better(straight(_), high_card(_)).
-better(three_of_a_kind(_), two_pair(_,_)).
-better(three_of_a_kind(_), pair(_)).
-better(three_of_a_kind(_), high_card(_)).
+better(straight(_), highcard(_)).
+better(threeofakind(_), two_pair(_,_)).
+better(threeofakind(_), pair(_)).
+better(threeofakind(_), highcard(_)).
 better(two_pair(_,_), pair(_)).
-better(two_pair(_,_), high_card(_)).
-better(pair(_), high_card(_)).
+better(two_pair(_,_), highcard(_)).
+better(pair(_), highcard(_)).
 
 
 % %% find the best combination for a given hand
