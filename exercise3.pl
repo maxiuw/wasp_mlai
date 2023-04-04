@@ -154,9 +154,8 @@ outcome(Hand1,Hand2,player2) :- better(Hand2,Hand1).
 outcome(Hand1,Hand2,player1) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(heads).
 outcome(Hand1,Hand2,player2) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(tails).
 
-ww
 
-%%%% What’s the probability that player2 draws the hand [ace, king, queen, ace].
+%%%% Whats the probability that player2 draws the hand [ace, king, queen, ace].
 
 %%%% Your answer : 
 % query(draw_hand(player2,[ace, king, queen, ace])). % 0.00625 
@@ -180,5 +179,4 @@ ww
 % What is the probability that player 1 wins, given that you know that player 2 is a cheater?
 %%%% Your answer : 
 % que0ry(game_outcome(draw_hand(player1,Hand),draw_hand(player2,Hand),player1)).
-query(winner(_)). 
-
+% query(winner(_)). 

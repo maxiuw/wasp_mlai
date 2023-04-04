@@ -168,5 +168,5 @@ best_hand(Cards,Hand) :-
 % query(game_outcome([jack, king, jack],[jack,king,king],X)).
 % query(game_outcome([jack, jack, ace],[jack, king, jack],X)).
 % query(best_hand([10,jack,queen,king,ace], X)).
-query(best_hand([jack, queen,ace, king], X)).
+% query(best_hand([jack, queen,ace, king], X)).
 query(game_outcome([7,7,7,6,6],[7,7,7,4,4],X)).
