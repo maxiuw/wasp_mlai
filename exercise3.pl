@@ -3,8 +3,9 @@
 
 
 %%%% Insert and modify the ProbLog code from Exercise 1 here
-0.2::cheater.
+% 0.2::cheater.
 % t(_)::cheater.
+0.2::cheater.
 
 % If player 2 is cheating, coin always comes up tails
 1.0::coin(tails); 0.0::coin(heads) :- cheater.
@@ -150,18 +151,15 @@ best_hand(Cards,Hand) :-
 
 outcome(Hand1,Hand2,player1) :- better(Hand1,Hand2).
 outcome(Hand1,Hand2,player2) :- better(Hand2,Hand1).
-outcome(Hand1,Hand2,tie) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1).
+outcome(Hand1,Hand2,player1) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(heads).
+outcome(Hand1,Hand2,player2) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(tails).
 
-% winner 
-winner(player1) :- outcome(Hand1,Hand2,player1).
-winner(player2) :- outcome(Hand1,Hand2,player2).
-winner(player1) :- coin(heads), outcome(Hand1,Hand2,tie).
-winner(player2) :- coin(tails), outcome(Hand1,Hand2,tie).
+ww
 
 %%%% What’s the probability that player2 draws the hand [ace, king, queen, ace].
 
 %%%% Your answer : 
-query(draw_hand(player2,[ace, king, queen, ace])). % 0.00625 
+% query(draw_hand(player2,[ace, king, queen, ace])). % 0.00625 
 % query(draw_hand(player1,[ace, king, queen, ace])). % 0.00390625
 
 %%%%  Given that player2 draws the hand [ace, king, queen, ace], 
@@ -175,11 +173,12 @@ query(draw_hand(player2,[ace, king, queen, ace])). % 0.00625
 % $ problog lfi exercise3.pl examples3.pl -O mylearnedprogram.pl
 % i get an output -1.793898363190937e-12 [1.0] [t(_)::cheater] 12
 % 0.999999999998206::cheater.
-% seems a bit too high 
+% seems too high 
 
 %%%%  What is the prior probability that player 1 wins? 
 % Why does this query take so long to answer? 
 % What is the probability that player 1 wins, given that you know that player 2 is a cheater?
 %%%% Your answer : 
-query(game_outcome([jack, jack, ace],[jack, jack, jack],X)).
-query(winner(player1)). 
+% que0ry(game_outcome(draw_hand(player1,Hand),draw_hand(player2,Hand),player1)).
+query(winner(_)). 
+
