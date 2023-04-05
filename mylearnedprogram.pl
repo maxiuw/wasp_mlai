@@ -1,6 +1,6 @@
 :- use_module(library(apply)).
 :- use_module(library(lists)).
-0.999999999998206::cheater.
+0.2::cheater.
 1.0::coin(tails); 0.0::coin(heads) :- cheater.
 0.5::coin(tails); 0.5::coin(heads) :- \+cheater.
 rank(jack,10).
@@ -10,7 +10,7 @@ rank(ace,13).
 0.25::card(player1,N,jack); 0.25::card(player1,N,queen); 0.25::card(player1,N,king); 0.25::card(player1,N,ace).
 0.25::card(player2,N,jack); 0.25::card(player2,N,queen); 0.25::card(player2,N,king); 0.25::card(player2,N,ace) :- \+cheater.
 0.0::card(player2,N,jack); 0.25::card(player2,N,queen); 0.25::card(player2,N,king); 0.5::card(player2,N,ace) :- cheater.
-hand(Cards,straight(Rank)) :- list_to_set(Cards,CardsSet), length(CardsSet,N), N>=4, select(Rank,CardsSet,Cards2), rank(Rank,N0), N1 is N0+1, select(Rank2,Cards2,Cards3), rank(Rank2,N2), N2=:=N1+1, select(Rank3,Cards3,Cards4), rank(Rank3,N3), N3=:=N2+1.
+hand(Cards,straight) :- member(jack,Cards), member(queen,Cards), member(king,Cards), member(ace,Cards).
 hand(Cards,pair(Rank)) :- select(Rank,Cards,Cards2), member(Rank,Cards2), rank(Rank,_).
 hand(Cards,two_pair(Rank1,Rank2)) :- select(Rank1,Cards,Cards2), member(Rank1,Cards2), select(Rank2,Cards2,Cards3), member(Rank2,Cards3), rank(Rank1,_), rank(Rank2,_).
 hand(Cards,threeofakind(Rank)) :- select(Rank,Cards,Cards2), member(Rank,Cards2), select(Rank,Cards2,Cards3), member(Rank,Cards3), rank(Ran1,_).
@@ -39,8 +39,8 @@ game_outcome(Cards1,Cards2,Outcome) :- best_hand(Cards1,Hand1), best_hand(Cards2
 best_hand(Cards,Hand) :- hand(Cards,Hand), \+(hand(Cards,Hand2), better(Hand2,Hand)).
 outcome(Hand1,Hand2,player1) :- better(Hand1,Hand2).
 outcome(Hand1,Hand2,player2) :- better(Hand2,Hand1).
-outcome(Hand1,Hand2,tie) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1).
-winner(player1) :- coin(heads), outcome(tie).
-winner(player2) :- coin(tails), outcome(tie).
-winner(player1) :- outcome(player1).
-winner(player2) :- outcome(player2).
+outcome(Hand1,Hand2,player1) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(heads).
+outcome(Hand1,Hand2,player2) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(tails).
+winner(1) :- game_outcome(Cards1,Cards2,player1).
+winner(2) :- game_outcome(Cards1,Cards2,player2).
+0.343981188759784::winner(1).

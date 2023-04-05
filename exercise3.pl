@@ -30,23 +30,29 @@ rank(ace, 13).
 %% card combinations
 
 % straight
-hand(Cards, straight(Rank)) :-
-    list_to_set(Cards, CardsSet),
-    length(CardsSet, N),
-    N >= 4,
-    select(Rank, CardsSet, Cards2),
-    rank(Rank, N0),
-    (N1 is N0 + 1),
-    select(Rank2, Cards2, Cards3),
-    rank(Rank2,N2),
-    (N2 =:= N1+1),
-    select(Rank3, Cards3, Cards4),
-    rank(Rank3, N3),
-    (N3 =:= N2+1).
+% hand(Cards, straight(Rank)) :-
+%     list_to_set(Cards, CardsSet),
+%     length(CardsSet, N),
+%     N >= 4,
+%     select(Rank, CardsSet, Cards2),
+%     rank(Rank, N0),
+%     (N1 is N0 + 1),
+%     select(Rank2, Cards2, Cards3),
+%     rank(Rank2,N2),
+%     (N2 =:= N1+1),
+%     select(Rank3, Cards3, Cards4),
+%     rank(Rank3, N3),
+%     (N3 =:= N2+1).
     % commenting out since we consider "fake" straights 4 cards only 
     % select(Rank4, Cards4, Cards5),
     % rank(Rank4, N4),
     % (N4 =:= N3 +1).
+
+hand(Cards, straight) :-
+    member(jack, Cards),
+    member(queen, Cards),
+    member(king, Cards),
+    member(ace, Cards).
 
 % Example for pair
 hand(Cards,pair(Rank)) :-
@@ -154,14 +160,16 @@ outcome(Hand1,Hand2,player2) :- better(Hand2,Hand1).
 outcome(Hand1,Hand2,player1) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(heads).
 outcome(Hand1,Hand2,player2) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(tails).
 
+winner(1):-game_outcome(Cards1,Cards2,player1).
+winner(2):-game_outcome(Cards1,Cards2,player2).
 
-%%%% Whats the probability that player2 draws the hand [ace, king, queen, ace].
+%%%% 1. Whats the probability that player2 draws the hand [ace, king, queen, ace].
 
 %%%% Your answer : 
 % query(draw_hand(player2,[ace, king, queen, ace])). % 0.00625 
 % query(draw_hand(player1,[ace, king, queen, ace])). % 0.00390625
 
-%%%%  Given that player2 draws the hand [ace, king, queen, ace], 
+%%%% 2. Given that player2 draws the hand [ace, king, queen, ace], 
 % and that the coin comes up tails, 
 % what is the posterior belief that your opponent is cheating?
 %%%% Your answer : 
@@ -174,9 +182,10 @@ outcome(Hand1,Hand2,player2) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), co
 % 0.999999999998206::cheater.
 % seems too high 
 
-%%%%  What is the prior probability that player 1 wins? 
+%%%% 3. What is the prior probability that player 1 wins? 
 % Why does this query take so long to answer? 
 % What is the probability that player 1 wins, given that you know that player 2 is a cheater?
 %%%% Your answer : 
 % que0ry(game_outcome(draw_hand(player1,Hand),draw_hand(player2,Hand),player1)).
-% query(winner(_)). 
+%query(winner(2)). 
+t(_)::winner(1). % --> examples3cheater.pl
