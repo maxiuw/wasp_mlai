@@ -43,4 +43,4 @@ outcome(Hand1,Hand2,player1) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), co
 outcome(Hand1,Hand2,player2) :- \+better(Hand1,Hand2), \+better(Hand2,Hand1), coin(tails).
 winner(1) :- game_outcome(Cards1,Cards2,player1).
 winner(2) :- game_outcome(Cards1,Cards2,player2).
-0.343981188759784::winner(1).
+0.62128756589575::winner(1).

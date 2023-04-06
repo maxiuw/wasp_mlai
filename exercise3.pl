@@ -187,5 +187,5 @@ winner(2):-game_outcome(Cards1,Cards2,player2).
 % What is the probability that player 1 wins, given that you know that player 2 is a cheater?
 %%%% Your answer : 
 % que0ry(game_outcome(draw_hand(player1,Hand),draw_hand(player2,Hand),player1)).
-%query(winner(2)). 
-t(_)::winner(1). % --> examples3cheater.pl
+%query(winner(1)). % --> doesnt converge 
+t(_)::winner(1). %  examples3cheater.pl, differnt resutlts each time 
